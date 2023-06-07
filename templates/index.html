@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestUp!</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="static/ensaio.js"></script>
+  <script src="static/menubar.js"></script>
+  <link rel="stylesheet" href="static/style_index.css">
+  <link rel="stylesheet" href="static/style_menu_lateral.css">
+  <link rel="icon" href="static/logo_preta.png" type="image/png">
+</head>   
+<body>
+  <div id="top-bar">
+    {% if username %}
+      <a href="/logout">
+        <button id="loginBtn">Logout</button>
+      </a>
+      <p class="username">{{ username }}</p>
+    {% else %}
+      <a href="/login">
+        <button id="loginBtn">Login</button>
+      </a>
+    {% endif %}
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      {% if username %}
+        <a href="/ensaio">Ensaio</a>
+        <a href="/calculos">Calculos</a>
+        <div class="menu-item" id="normas-menu">
+          <a href="#">Normas</a>
+          <div class="sub-menu" id="normas-submenu" style="display: none;">
+            <a href="static/nbr_247_3.pdf" target="_blank">NBR 247-3: 2002</a>
+            <a href="static/nbr_247_2.pdf" target="_blank">NBR 247-2: 2002</a>
+            <a href="/247_1">NBR 247-1: 2002</a>
+            <a href="/60811_1_1">NM IEC 60811-1-1: 2001</a>
+            <a href="/60811_1_2">NM IEC 60811-1-2: 2001</a>
+          </div>
+        </div>
+        {% set user = get_user_by_username(username) %}
+        {% if user and user["permissoes"] == "admin" %}
+          <div class="menu-item" id="usuarios-menu">
+            <a href="/users">Usuários</a>
+          </div>
+        {% endif %}
+      {% else %}
+        <a href="/login">Ensaio</a>
+        <a href="/login">Calculos</a>
+        <a href="/login">Normas</a>
+      {% endif %}
+    </div>
+    
+    <script type="text/javascript">
+      document.getElementById("normas-menu").addEventListener("click", function() {
+        var submenu = document.getElementById("normas-submenu");
+        if (submenu.style.display === "none") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      });
+    </script>
+    <div id="main">
+      <button class="openbtn" id="menuBtn" onclick="openNav()">☰ Menu</button>  
+    </div>   
+  </div>
+  <h1 id="welcome" class="typewriter"></h1>
+  <p id="message" class="typewriter"></p>
+  <h2 id="tracao" class="typewriter"></h2>
+  <p id="message_tracao" class="typewriter4"></p>
+  <script>
+    var txt1 = 'Seja bem-vindo(a) ao TestUp!';
+    var txt2 = 'Nós nos dedicamos a fornecer informações detalhadas e precisas sobre limitações em fios e cabos. Aqui, você encontrará uma grande variedade de recursos, desde descrições de procedimentos de teste até resultados de ensaios, tudo projetado para ajudá-lo a entender melhor a resistência, flexibilidade e durabilidade do seu produto.';
+    var txt3 = 'Tração e alongamento à ruptura em cabos'
+    var txt4 = 'O ensaio de tração é um teste realizado para determinar as propriedades mecânicas dos materiais, como resistência à tração, limite de elasticidade, alongamento e estricção. No caso dos cabos, esses ensaios são fundamentais para garantir a qualidade, a segurança e a durabilidade dos produtos.'
+    var speed = 8;
+
+    function typeWriter1() {
+        var i = 0;
+        function addChar() {
+            if (i < txt1.length) {
+                document.getElementById("welcome").innerHTML += txt1.charAt(i);
+                i++;
+                setTimeout(addChar, 45);
+            } else {
+                typeWriter2();
+            }
+        }
+        addChar();
+    }
+
+    function typeWriter2() {
+        var j = 0;
+        function addChar() {
+            if (j < txt2.length) {
+                document.getElementById("message").innerHTML += txt2.charAt(j);
+                j++;
+                setTimeout(addChar, speed);
+            } else {
+                document.getElementById("message").innerHTML += '<br><br><button id="detailsButton">Ver detalhes do ensaio</button>';
+                document.getElementById("detailsButton").addEventListener("click", function() {
+                    this.disabled = true;
+                    document.getElementById("tracao").innerHTML = '';
+                    document.getElementById("message_tracao").innerHTML = '';
+                    typeWriter3();
+                    typeWriter4();
+                    setTimeout(function() {
+                        document.getElementById("detailsButton").disabled = false;
+                    }, (txt3.length + txt4.length) * speed);
+                });
+            }
+        }
+        addChar();
+    }
+
+    function typeWriter3() {
+        var i = 0;
+        function addChar() {
+            if (i < txt3.length) {
+                document.getElementById("tracao").innerHTML += txt3.charAt(i);
+                i++;
+                setTimeout(addChar, 45);
+            }
+        }
+        addChar();
+    }
+
+    function typeWriter4() {
+        var j = 0;
+        function addChar() {
+            if (j < txt4.length) {
+                document.getElementById("message_tracao").innerHTML += txt4.charAt(j);
+                j++;
+                setTimeout(addChar, speed);
+            }
+        }
+        addChar();
+    }
+
+    window.onload = function() {
+        typeWriter1();
+    };
+  </script>
+</body>
+</html>
+

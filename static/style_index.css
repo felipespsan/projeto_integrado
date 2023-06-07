@@ -1,0 +1,68 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Century Gothic';
+  background-color: #1d1d1d;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: contain;
+  background-image: url('https://static.igem.org/mediawiki/2017/3/38/CabeceraSafetyValencia.gif');
+  opacity: 0.1;
+}
+
+h1.typewriter {
+  padding-top: 80px;
+  color: #eeeeee;
+  padding-left: 20px;
+  font-size: 36px;
+}
+
+h2.typewriter {
+  color: #c9c9c9;
+  padding-left: 20px;
+  font-size: 26px;
+  text-align: justify;
+}
+
+p.typewriter {
+  color: #ffffff;
+  line-height: 1.6;
+  max-width: 1300px;
+  text-align:justify;
+  padding-left: 20px;
+  font-size: 20px;
+}
+
+p.typewriter4 {
+  color: #aaaaaa;
+  line-height: 1.6;
+  max-width: 1300px;
+  text-align:justify;
+  padding-left: 20px;
+  font-size: 18px;
+}
+
+#detailsButton {
+  font-family: 'Century Gothic';
+  color: #ffffff;
+  background-color: transparent;
+  text-decoration: none;
+  font-size: 20px;
+  text-align: center;
+  border: none;
+}
+
+#detailsButton:hover {
+  text-decoration:underline;
+  cursor: pointer;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestUp!</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_usuarios.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_menu_lateral.css') }}">
+  <script src="{{ url_for('static', filename='ensaio.js') }}"></script>  
+  <link rel="icon" href="static/logo_preta.png" type="image/png">
+</head>   
+<body>
+  <div id="top-bar">
+    {% if username %}
+      <a href="/logout">
+        <button id="loginBtn">Logout</button>
+      </a>
+      <p class="username">{{ username }}</p>
+    {% else %}
+      <a href="/login">
+        <button id="loginBtn">Login</button>
+      </a>
+    {% endif %}
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      {% if username %}
+      <a href="/home">Home</a>
+      <a href="/ensaio">Ensaio</a>
+      <a href="#">Especificados</a>
+      <a href="/calculos">Calculos</a>
+      <div class="menu-item" id="normas-menu">
+        <a href="#">Normas</a>
+        <div class="sub-menu" id="normas-submenu" style="display: none;">
+          <a href="static/nbr_247_3.pdf" target="_blank">NBR 247-3: 2002</a>
+          <a href="static/nbr_247_2.pdf" target="_blank">NBR 247-2: 2002</a>
+          <a href="/247_1">NBR 247-1: 2002</a>
+          <a href="/60811_1_1">NM IEC 60811-1-1: 2001</a>
+          <a href="/60811_1_2">NM IEC 60811-1-2: 2001</a>
+        </div>
+      </div>
+      <a href="/users">Usuários</a>
+      {% else %}
+      <a href="/login">Ensaio</a>
+      <a href="/login">Especificados</a>
+      <a href="/login">Calculos</a>
+      <a href="/login">Normas</a>
+      {% endif %}
+    </div>
+    <script type="text/javascript">
+      document.getElementById("normas-menu").addEventListener("click", function() {
+        var submenu = document.getElementById("normas-submenu");
+        if (submenu.style.display === "none") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      });
+    </script>
+    <div id="main">
+      <button class="openbtn" id="menuBtn" onclick="openNav()">☰ Menu</button>  
+    </div>   
+  </div>
+  <form id="formUsuarios" action="{{ url_for('update_user', username=user[1]) }}" method="POST">
+    <h1>Editar usuário: {{ user[1] }}</h1>
+    <label for="usuario">Usuário:</label><br>
+    <input type="text" id="usuario" name="username" value="{{ user[1] }}" required><br>
+    <label for="senha">Senha:</label><br>
+    <input type="password" id="senha" name="senha" value="{{ user[2] }}" required><br>
+    <label for="nome">Nome:</label><br>
+    <input type="text" id="nome" name="nome" value="{{ user[3] }}" required><br>
+    <label for="genero">Gênero:</label><br>
+    <select id="genero" name="genero" required>
+      <option value="" selected disabled>Selecione</option>
+      <option value="Masculino" {% if user[4] == 'Masculino' %}selected{% endif %}>Masculino</option>
+      <option value="Feminino" {% if user[4] == 'Feminino' %}selected{% endif %}>Feminino</option>
+    </select><br>
+    <label for="permissoes">Permissões:</label><br>
+    <select id="permissoes" name="permissoes" required>
+      <option value="" selected disabled>Selecione</option>
+      <option value="admin" {% if user[5] == 'admin' %}selected{% endif %}>admin</option>
+      <option value="usuário" {% if user[5] == 'usuário' %}selected{% endif %}>usuário</option>
+    </select><br>
+    <div style="text-align: center;">
+      <input type="submit" value="Salvar">
+      <input type="submit" value="Excluir" formaction="{{ url_for('delete_user', username=user[1]) }}" formmethod="POST" onclick="return confirm('Tem certeza de que deseja excluir este usuário?');">
+    </div>
+  </form>
+</html>
+

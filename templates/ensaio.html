@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ensaio de Resistência a tração</title>
+  <link rel="icon" href="static/logo_azul.png" type="image/png">
+  <link rel="stylesheet" href="static/style_ensaio.css">
+  <link rel="stylesheet" href="static/style_menu_lateral.css">
+  <script src="static/ensaio.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="static/menubar.js"></script>  
+</head>
+<body>
+  <div id="top-bar">
+    {% if username %}
+      <a href="/logout">
+        <button id="loginBtn">Logout</button>
+        <p class="username">{{ username }}</p>
+      </a>
+    {% else %}
+      <a href="/login">
+        <button id="loginBtn">Login</button>
+      </a>
+    {% endif %}
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      <a href="/home">Home</a>
+      <a href="#">Especificados</a>
+      <a href="/calculos">Calculos</a>
+      <div class="menu-item" id="normas-menu">
+        <a href="#">Normas</a>
+        <div class="sub-menu" id="normas-submenu" style="display: none;">
+          <a href="static/nbr_247_3.pdf" target="_blank">NBR 247-3: 2002</a>
+          <a href="static/nbr_247_2.pdf" target="_blank">NBR 247-2: 2002</a>
+          <a href="/247_1">NBR 247-1: 2002</a>
+          <a href="/60811_1_1">NM IEC 60811-1-1: 2001</a>
+          <a href="/60811_1_2">NM IEC 60811-1-2: 2001</a>
+        </div>
+      </div>
+      {% set user = get_user_by_username(username) %}
+      {% if user and user["permissoes"] == "admin" %}
+        <div class="menu-item" id="usuarios-menu">
+          <a href="/users">Usuários</a>
+        </div>
+      {% endif %}
+      <script type="text/javascript">
+        document.getElementById("normas-menu").addEventListener("click", function() {
+          var submenu = document.getElementById("normas-submenu");
+          if (submenu.style.display === "none") {
+            submenu.style.display = "block";
+          } else {
+            submenu.style.display = "none";
+          }
+        });
+      </script>
+    </div>
+    <div id="main">
+      <button class="openbtn" id="menuBtn" onclick="openNav()">☰ Menu</button>  
+    </div>
+  </div>  
+</body>
+<body id="body">
+</div>
+  <h1>Tabela 2 - 247 NM 01 - CX - BWF-B</h1>
+  <h2>Ensaios na isolação</h2>
+  <form id="formDados" method="POST" action="/salvar_informacoes">
+    <div class="input-label">
+      <label for="coleta">N° da coleta:</label>
+      <input type="text" name="coleta" id="coleta">
+      <button type="button" id="OkBtn" onclick="abrir_coleta_existente (event)">OK</button>
+      <button type="button" id="gerarColetaBtn" onclick="limparCampos(), coletaNumero (event)">Gerar nova coleta</button>
+      <button onclick="exportExcel(event)">Gerar Relatório</button>
+    </div>
+    <h3>Especificados (Conforme Tabela 2 da NBR NM 247-1)</h3>
+    <div id="formEspecificados">
+      <div class="digitado">
+        <label for="tipoCorpoDeProva">Selecione o tipo de corpo-de-prova:</label>
+        <select id="tipoCorpoDeProva" name="tipoCorpoDeProva">
+          <option value="Selecione">Selecione</option>
+          <option value="Tubular">Tubular</option>
+          <option value="Borboleta">Borboleta</option>
+        </select>
+        <label for="composto">Selecione o composto:</label>
+        <select id="composto" name="composto" onchange="especificados()">
+          <option value="Selecione">Selecione</option>
+          <option value="PVC-A">PVC-A</option>
+          <option value="PVC-C">PVC-C</option>
+          <option value="PVC-D">PVC-D</option>
+          <option value="PVC-E">PVC-E</option>
+        </select>
+        <label for="distancia">Distância entre as marcas (mm):</label>
+        <input type="text" name="distancia" class="digitado" id="distancia" value="20" readonly>
+      </div>
+      <div class="especificados2">
+        <label for="minimoAlongamento">Alongamento mínimo (%):</label>
+        <input type="text" id="minimoAlongamento" name="minimoAlongamento" readonly>
+
+        <label for="minimoRuptura">Ruptura mínima (MPa):</label>
+        <input type="text" id="minimoRuptura" name="minimoRuptura" readonly>
+
+        <label for="variacaoEspecificada">Variação especificada (%):</label>
+        <input type="text" id="variacaoEspecificada" name="variacaoEspecificada" value="± 25" readonly>
+      </div>
+    </div>
+    <h3>Registro de valores sem envelhecimento</h3>
+    <div id="formDimensoesSemEnvelhec">
+      <table border="1">
+        <tr>
+          <td>Dimensões</td>
+          <td>Amostra 1</td>
+          <td>Amostra 2</td>
+          <td>Média</td>
+        </tr>
+        <tr>
+          <td>Espessura (mm):</td>
+          <td><input type="text" id="espessura1" name="espessura1"></td>
+          <td><input type="text" id="espessura2" name="espessura2"></td>
+          <td><input type="text" id="media_espessura" name="media_espessura" readonly></td>
+        </tr>
+        <tr>
+          <td id="tdLargura">Largura (mm):</td>
+          <td><input type="text" id="largura1" name="largura1"></td>
+          <td><input type="text" id="largura2" name="largura2"></td>
+          <td><input type="text" id="media_largura" name="media_largura" readonly></td>
+        </tr>
+        <tr>
+          <td>Área (mm²):</td>
+          <td><input type="text" id="area1" name="area1" readonly></td>
+          <td><input type="text" id="area2" name="area2" readonly></td>
+          <td><input type="text" id="media_area" name="media_area" readonly></td>
+        </tr>
+      </table>
+    </div>
+    <div id="formValoresObtidosSemEnvelhec">
+      <table border="1">
+        <tr>
+          <td>Valores obtidos</td>
+          <td>Amostra 1</td>
+          <td>Amostra 2</td>
+          <td>Mediana</td>
+        </tr>
+        <tr>
+          <td>Alongamento (mm):</td>
+          <td><input type="text" id="alongamento1" name="alongamento1"></td>
+          <td><input type="text" id="alongamento2" name="alongamento2"></td>
+          <td><input type="text" value="--" readonly></td>
+        </tr>
+        <tr>
+          <td>Ruptura obtida (kgf):</td>
+          <td><input type="text" id="ruptura1" name="ruptura1"></td>
+          <td><input type="text" id="ruptura2" name="ruptura2"></td>
+          <td><input type="text" value="--" readonly></td>
+        </tr>
+        <tr>
+          <td>Alongamento calculado (%):</td>
+          <td><input type="text" id="calculado1" name="calculado1" readonly></td>
+          <td><input type="text" id="calculado2" name="calculado2" readonly></td>
+          <td><input type="text" id="mediana_calculada" name="mediana_calculada" readonly></td>
+        </tr>
+        <tr>
+          <td>Ruptura calculada (kgf/mm²):</td>
+          <td><input type="text" id="ruptura_area1" name="ruptura_area1" readonly></td>
+          <td><input type="text" id="ruptura_area2" name="ruptura_area2" readonly></td>
+          <td><input type="text" id="mediana_ruptura_area" name="mediana_ruptura_area" readonly></td>
+        </tr>
+        <tr>
+          <td>Ruptura calculada (MPa):</td>
+          <td><input type="text" id="ruptura_MPa1" name="ruptura_MPa1" readonly></td>
+          <td><input type="text" id="ruptura_MPa2" name="ruptura_MPa2" readonly></td>
+          <td><input type="text" id="mediana_ruptura_MPa" name="mediana_ruptura_MPa" readonly></td>
+        </tr>
+      </table>
+      <div style="text-align: center;">
+        <button onclick="const calculos = resultadosSemEnvelhecimento(event);">Calcular resultados</button>
+      </div>
+    </div>
+    <h3>Registro de valores após envelhecimento em ar quente circulante</h3>
+    <div id="formDimensoesAposEnvelhec">
+      <table border="1">
+        <td>Dimensões</td>
+        <td>Amostra 1</td>
+        <td>Amostra 2</td>
+        <td>Média</td>
+        <tr>
+          <td>Espessura (mm):</td>
+          <td><input type="text" id="espessura1_2" name="espessura1_2"></td>
+          <td><input type="text" id="espessura2_2" name="espessura2_2"></td>
+          <td><input type="text" id="media_espessura_2" name="media_espessura_2" readonly></td>
+        </tr>
+        <tr>
+          <td id="tdLargura2">Largura (mm):</td>
+          <td><input type="text" id="largura1_2" name="largura1_2"></td>
+          <td><input type="text" id="largura2_2" name="largura2_2"></td>
+          <td><input type="text" id="media_largura_2" name="media_largura_2" readonly></td>
+        </tr>
+        <tr>
+          <td>Área (mm²):</td>
+          <td><input type="text" id="area1_2" name="area1_2" readonly></td>
+          <td><input type="text" id="area2_2" name="area2_2" readonly></td>
+          <td><input type="text" id="media_area_2" name="media_area_2" readonly></td>
+        </tr>
+      </table>  
+    </div>
+    <div id="formValoresObtidosAposEnvelhec">
+      <table border="1">
+        <tr>
+          <td>Valores obtidos</td>
+          <td>Amostra 1</td>
+          <td>Amostra 2</td>
+          <td>Mediana</td>
+        </tr>
+        <tr>
+          <td>Alongamento (mm):</td>
+          <td><input type="text" id="alongamento1_2" name="alongamento1_2"></td>
+          <td><input type="text" id="alongamento2_2" name="alongamento2_2"></td>
+          <td><input type="text" value="--" readonly></td>
+        </tr>
+        <tr>
+          <td>Ruptura obtida (kgf):</td>
+          <td><input type="text" id="ruptura1_2" name="ruptura1_2"></td>
+          <td><input type="text" id="ruptura2_2" name="ruptura2_2"></td>
+          <td><input type="text" value="--" readonly></td>
+        </tr>
+        <tr>
+          <td>Alongamento calculado (%):</td>
+          <td><input type="text" id="calculado1_2" name="calculado1_2" readonly></td>
+          <td><input type="text" id="calculado2_2" name="calculado2_2" readonly></td>
+          <td><input type="text" id="mediana_calculada_2" name="mediana_calculada_2" readonly></td>
+        </tr>          
+        <tr>
+          <td>Ruptura calculada (kgf/mm²):</td>
+          <td><input type="text" id="ruptura_area1_2" name="ruptura_area1_2" readonly></td>
+          <td><input type="text" id="ruptura_area2_2" name="ruptura_area2_2" readonly></td>
+          <td><input type="text" id="mediana_ruptura_area_2" name="mediana_ruptura_area_2" readonly></td>
+        </tr>
+        <tr>
+          <td>Ruptura calculada (MPa):</td>
+          <td><input type="text" id="ruptura_MPa1_2" name="ruptura_MPa1_2" readonly></td>
+          <td><input type="text" id="ruptura_MPa2_2" name="ruptura_MPa2_2" readonly></td>
+          <td><input type="text" id="mediana_ruptura_MPa_2" name="mediana_ruptura_MPa_2" readonly></td>
+        </tr> 
+      </table>
+    </div>
+    <div id="formVariacoes">
+      <table>
+        <tr>
+          <td>Variação máxima do alongamento:</td>
+          <td><input type="text" id="variacaoCalculada" name="variacaoCalculada" readonly></td>
+        </tr>
+        <tr>
+          <td>Variação máxima da ruptura (kgf/mm²):</td>
+          <td><input type="text" id="variacaoRupturaArea" name="variacaoRupturaArea" readonly></td>
+        </tr>
+        <tr>
+          <td>Variação máxima da ruptura (MPa):</td>
+          <td><input type="text" id="variacaoRupturaMPa" name="variacaoRupturaMPa" readonly></td>
+        </tr>
+      </table>
+    </div>
+    <div style="text-align: center;">
+      <button onclick="const calculos_2 = resultadosAposEnvelhecimento(event);">Calcular resultados</button>
+      <button type="button" onclick="salvarDadosFormulario()">Salvar</button>
+      <button onclick="exportExcel(event)">Gerar Relatório</button>
+      <div id="message"></div>
+    </div>
+  </form>
+</body>
+</html>

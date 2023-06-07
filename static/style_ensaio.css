@@ -1,0 +1,205 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  margin: 0;
+  background-color: #272727;
+  padding-top: 50px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: contain;
+  background-image: url('https://cdn.dribbble.com/users/535360/screenshots/2583480/media/38958c0f98219b9851db3d2e8d44aa4b.gif');
+  opacity: 0.1;
+}
+
+h1, h2 {
+    padding-top: 10px;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Century Gothic';
+    font-size: 24px;
+}
+
+h3 {
+  padding-left: 2%;
+  color: #ffffff;
+  text-align: center;
+  font-size: 20px;
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 50px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 30px;
+  margin-left: 50px;
+}
+
+form {
+  margin: 20px;
+  padding: 20px;
+  background-color: #1d1d1d;
+  border-radius: 5px;
+  color: #ffffff;
+  opacity: 0.7;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  opacity: 0.7;
+}
+
+form table {
+  width: 100%;
+  margin: auto;
+  border: none;
+}
+
+form th, td {
+  padding: 8px;
+  border: none;
+  text-align: center;
+  color: #ffffff;
+}
+
+form input[type="text"], form select {
+  width: 100%;
+  padding: 8px;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  display: inline-block;
+  border: 1px solid #444;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color:#292929;
+  color: #ffffff;
+  font-size: 14px; 
+  transition: all 0.3s ease;
+}
+
+form input[type="text"]:focus, form select:focus {
+  outline: none;
+  border-color: #777;
+}
+
+form input[readonly] {
+  background-color: #292929;
+  border: none;
+}
+
+form input[readonly]:hover {
+  box-shadow: none;
+}
+
+
+form label {
+  font-weight: bold;
+  width: 100%;
+}
+
+table td:nth-child(1) {
+  width: 30%;
+}
+
+table td:nth-child(2),
+table td:nth-child(3) {
+  width: 25%;
+}
+
+table td:nth-child(4) {
+  width: 25%;
+}
+
+table input {
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  font-size: 16px;
+  width: 100%;
+  color: #ffffff;
+  transition: box-shadow 0.3s ease;
+}
+  
+table input:hover {
+  outline: none;
+  box-shadow: 0 0 10px #5a5a5a;
+}  
+
+button {
+  background-color: #373f50;
+  color: white;
+  padding: 15px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+#formDados button {
+  margin-left: 20px;
+  width: 290px;
+}
+
+button:hover {
+  background-color: #ffffff;
+  color: #1d1d1d;
+  transition: background-color 0.3s ease;
+}
+
+.input-label {
+  clear:both;
+}
+
+.input-label label {
+  text-align: left;
+  margin-right: 10px;
+  width: 120px;
+}
+
+.input-label input[type="text"] {
+  text-align: left;
+  width: 200px;
+  margin-bottom: 40px;
+}
+
+.input-label button {
+  text-align: center;
+  margin-left: 40px;
+  width: 250px;
+}

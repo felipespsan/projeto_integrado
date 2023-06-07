@@ -1,0 +1,109 @@
+.sidebar {
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(29, 29, 29, 0.97);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  font-family: 'Roboto', sans-serif;
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  position: fixed;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: transparent;
+  color: white;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 5px;
+}
+
+.openbtn:hover {
+  color: #cfcfcf;
+  background-color: transparent;
+}
+
+#top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  border-bottom: 1px solid rgba(165, 165, 165, 0.1);
+  height: 60px; 
+  z-index: 1000; 
+  transition: background-color 0.5s ease;
+}
+
+.sub-menu {
+  display: none;
+  margin-left: 20px;
+}
+
+.menu-item:hover .sub-menu {
+  display: block;
+}
+
+#loginBtn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#loginBtn:hover {
+  background-color: white;
+  color: black;
+}
+
+p.username {
+  position: absolute;
+  right: 135px;
+  top: 50%;
+  transform: translateY(-130%);
+  font-family:monospace;
+  font-size: 16px;
+  color: white;
+  background-color: transparent;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 3px;
+}
+    

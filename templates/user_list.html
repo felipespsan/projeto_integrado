@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestUp!</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="static/ensaio.js"></script>
+  <link rel="stylesheet" href="static/style_usuarios.css">
+  <link rel="stylesheet" href="static/style_menu_lateral.css">
+  <link rel="icon" href="static/logo_preta.png" type="image/png">
+</head>   
+<body>
+  <div id="top-bar">
+    {% if username %}
+      <a href="/logout">
+        <button id="loginBtn">Logout</button>
+      </a>
+      <p class="username">{{ username }}</p>
+    {% else %}
+      <a href="/login">
+        <button id="loginBtn">Login</button>
+      </a>
+    {% endif %}
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      {% if username %}
+      <a href="/home">Home</a>
+      <a href="/ensaio">Ensaio</a>
+      <a href="/calculos">Calculos</a>
+      <div class="menu-item" id="normas-menu">
+        <a href="#">Normas</a>
+        <div class="sub-menu" id="normas-submenu" style="display: none;">
+          <a href="static/nbr_247_3.pdf" target="_blank">NBR 247-3: 2002</a>
+          <a href="static/nbr_247_2.pdf" target="_blank">NBR 247-2: 2002</a>
+          <a href="/247_1">NBR 247-1: 2002</a>
+          <a href="/60811_1_1">NM IEC 60811-1-1: 2001</a>
+          <a href="/60811_1_2">NM IEC 60811-1-2: 2001</a>
+        </div>
+      </div>
+      <a href="/users">Usuários</a>
+      {% else %}
+      <a href="/login">Ensaio</a>
+      <a href="/login">Calculos</a>
+      <a href="/login">Normas</a>
+      {% endif %}
+    </div>
+    <script type="text/javascript">
+      document.getElementById("normas-menu").addEventListener("click", function() {
+        var submenu = document.getElementById("normas-submenu");
+        if (submenu.style.display === "none") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      });
+    </script>
+    <div id="main">
+      <button class="openbtn" id="menuBtn" onclick="openNav()">☰ Menu</button>  
+    </div>   
+  </div>
+<body>
+  <form id="formUsuarios" action="/cadastrar">
+    <h1>Usuários</h1>
+    <ul>
+      {% for user in users %}
+          <li><a href="{{ url_for('user', username=user[1]) }}">{{ user[1] }}</a></li>  
+      {% endfor %}
+    </ul>
+    <input type="submit" value="Cadastrar usuário">
+  </form>
+</body>
+</html>
+
+      

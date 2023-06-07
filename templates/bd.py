@@ -1,0 +1,66 @@
+import sqlite3
+
+conn = sqlite3.connect('ensaio.db')
+cursor = conn.cursor()
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS informacoes (
+        "coleta" TEXT,
+        "usuario" TEXT,
+        "composto" TEXT,
+        "distancia" REAL,
+        "minimoAlongamento" REAL,
+        "minimoRuptura" REAL,
+        "variacaoEspecificada" TEXT,
+        "espessura1" REAL,
+        "espessura2" REAL,
+        "media_espessura" REAL,
+        "largura1" REAL,
+        "largura2" REAL,
+        "media_largura" REAL,
+        "area1" REAL,
+        "area2" REAL,
+        "media_area" REAL,
+        "alongamento1" REAL,
+        "alongamento2" REAL,
+        "ruptura1" REAL,
+        "ruptura2" REAL,
+        "calculado1" REAL,
+        "calculado2" REAL,
+        "mediana_calculada" REAL,
+        "ruptura_area1" REAL,
+        "ruptura_area2" REAL,
+        "mediana_ruptura_area" REAL,
+        "ruptura_MPa1" REAL,
+        "ruptura_MPa2" REAL,
+        "mediana_ruptura_MPa" REAL,
+        "espessura1_2" REAL,
+        "espessura2_2" REAL,
+        "media_espessura_2" REAL,
+        "largura1_2" REAL,
+        "largura2_2" REAL,
+        "media_largura_2" REAL,
+        "area1_2" REAL,
+        "area2_2" REAL,
+        "media_area_2" REAL,
+        "alongamento1_2" REAL,
+        "alongamento2_2" REAL,
+        "ruptura1_2" REAL,
+        "ruptura2_2" REAL,
+        "calculado1_2" REAL,
+        "calculado2_2" REAL,
+        "mediana_calculada_2" REAL,
+        "ruptura_area1_2" REAL,
+        "ruptura_area2_2" REAL,
+        "mediana_ruptura_area_2" REAL,
+        "ruptura_MPa1_2" REAL,
+        "ruptura_MPa2_2" REAL,
+        "mediana_ruptura_MPa_2" REAL,
+        "variacaoCalculada" REAL,
+        "variacaoRupturaArea" REAL,
+        "variacaoRupturaMPa" REAL,
+        "tipoCorpoDeProva" TEXT
+    )
+''')
+
+conn.close()

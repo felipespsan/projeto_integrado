@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" href="static/logo_preta.png" type="image/png">
+  </head>
+  <body>
+    <div class="background-image"></div>
+    <div class="dark-overlay"></div>
+    <div class="content">
+      <a href="/home">
+        <img src="static/logo_branca.png" alt="Logo" class="logo">
+      </a>
+      <form method="POST" action="/index">
+        <h1>Login</h1>
+        <label for="username">Usuário</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Entrar</button>
+        <a href="/cadastrar">Cadastre-se</a>
+      </form>
+    </div>
+  </body>  
+</html>

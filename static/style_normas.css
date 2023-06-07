@@ -1,0 +1,28 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(27, 27, 27);
+    padding-top: 90px;
+    font-family: 'Roboto', sans-serif;
+}
+
+form {
+    width: 100%;
+    max-width: 900px;
+    margin: 10px 0;
+    border-radius: 15px;
+    border-color: rgb(87, 87, 90);
+    border-style: solid;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    justify-content: flex-start;
+}
+img {
+    width: 90%;
+    height: auto;
+    padding: 20px;
+    opacity: 0.8;
+}

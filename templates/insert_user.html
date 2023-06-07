@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cadastrar Usuário</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="static/script.js"></script>
+</head>
+<body>
+  <div id="top-bar">
+    {% if username %}
+      <a href="/logout">
+        <button id="loginBtn">Logout</button>
+        <p class="username">{{ username }}</p>
+      </a>
+    {% else %}
+      <a href="/login">
+        <button id="loginBtn">Login</button>
+      </a>
+    {% endif %}
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      {% if username %}
+      <a href="/ensaio">Ensaio</a>
+      <a href="/calculos">Calculos</a>
+      <div class="menu-item">
+        <a href="#">Normas</a>
+        <div class="sub-menu">
+          <a href="static/nbr_247_3.pdf" target="_blank">NBR 247-3: 2002</a>
+          <a href="static/nbr_247_2.pdf" target="_blank">NBR 247-2: 2002</a>
+          <a href="/247_1">NBR 247-1: 2002</a>
+          <a href="/60811_1_1">NM IEC 60811-1-1: 2001</a>
+          <a href="/60811_1_2">NM IEC 60811-1-2: 2001</a>
+        </div>
+      </div>
+      {% else %}
+      <a href="/login">Ensaio</a>
+      <a href="/login">Calculos</a>
+      <a href="/login">Normas</a>
+      {% endif %}
+    </div>
+    <h1>Cadastrar Usuário</h1>
+    <form id="user-form">
+      <label for="usuario">Usuário:</label>
+      <input type="text" id="usuario" name="usuario" required><br>
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" name="senha" required><br>
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required><br>
+      <label for="genero">Gênero:</label>
+      <select id="genero" name="genero" required>
+        <option value="masculino">Masculino</option>
+        <option value="feminino">Feminino</option>
+      </select><br>
+      <label for="permissoes">Permissões:</label>
+      <select name="permissoes" id="permissoes">
+        <option value="admin">Administrador</option>
+        <option value="tecnico">Técnico</option>
+      </select>
+    </form>
+  </div>
+</body>
+</html>
